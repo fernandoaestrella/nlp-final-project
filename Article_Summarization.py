@@ -1,18 +1,35 @@
 import heapq
+import urllib
+from webbrowser import Mozilla
 
 import nltk
+import bs4 as bs
+from requests import Request
+from urllib.request import Request, urlopen
 
 from FacebookPosts import create_news
 
 
 class ArticleSummarization:
-    def __init__(self,article_content):
+    # the parameter is the article url please pass that in
+    def __init__(self,url):
+        self.orginal_text = self.read_article(url)
         self.sentence_scores = {}
-        self.sentence_tokens = nltk.sent_tokenize(article_content)
+        self.sentence_tokens = nltk.sent_tokenize(self.orginal_text)
         self.word_frequencies = {}
-        self.orginal_text = article_content
-        self.article_content = nltk.re.sub('[^a-zA-Z]', ' ', article_content)
+
+        self.article_content = nltk.re.sub('[^a-zA-Z]', ' ', self.orginal_text)
         self.article_content  = nltk.re.sub(r'\s+', ' ', self.article_content)
+
+    def read_article(self,url):
+        req = Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+        article = urlopen(req).read()
+        parsed_article = bs.BeautifulSoup(article, 'lxml')
+        paragraphs = parsed_article.find_all('p')
+        article_text = ""
+        for p in paragraphs:
+            article_text += p.text
+        return article_text
 
     def frequency_dis(self):
         stopwords = nltk.corpus.stopwords.words('english')
@@ -31,7 +48,6 @@ class ArticleSummarization:
             self.word_frequencies[word] = (self.word_frequencies[word] / maximum_frequncy)
 
     def sentence_freq(self):
-
         for sent in self.sentence_tokens:
             for word in nltk.word_tokenize(sent.lower()):
                 if word in self.word_frequencies.keys():
@@ -40,19 +56,21 @@ class ArticleSummarization:
                             self.sentence_scores[sent] = self.word_frequencies[word]
                         else:
                             self.sentence_scores[sent] += self.word_frequencies[word]
-
+    # this will generate a new summary of the article with three sentence if you want a shorter or longer summary just switch the 3 to w/e #
+    # u want
     def generate_summerzization(self):
         self.frequency_dis()
         self.frequency_caculate()
         self.sentence_freq()
-        summary_sentences = heapq.nlargest(2, self.sentence_scores, key=self.sentence_scores.get)
-        summary = ' '.join(summary_sentences)
+        summary_sentences = heapq.nlargest(3, self.sentence_scores, key=self.sentence_scores.get)
+        summary = '\n'.join(summary_sentences)
         print(summary)
         return summary
-
-
+    # this will get you the actual content of the page
+    def get_article_web_content(self):
+        return self.orginal_text
 
 if __name__ == '__main__':
-        content_url_description_list = create_news()
-        n = ArticleSummarization(content_url_description_list[0][0])
-        n.generate_summerzization()
+    content_url_description_list = create_news()
+    article = ArticleSummarization(content_url_description_list[0][1]);
+    article.generate_summerzization()
