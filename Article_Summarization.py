@@ -11,8 +11,10 @@ from FacebookPosts import create_news
 
 class ArticleSummarization:
     # the parameter is the article url please pass that in
-    def __init__(self,url):
+    def __init__(self,url,backup):
+        self.backup = backup
         self.orginal_text = self.read_article(url)
+        print(self.orginal_text+" hi")
         self.sentence_scores = {}
         self.sentence_tokens = nltk.sent_tokenize(self.orginal_text)
         self.word_frequencies = {}
@@ -28,7 +30,11 @@ class ArticleSummarization:
         article_text = ""
         for p in paragraphs:
             article_text += p.text
-        return article_text
+
+        if article_text:
+            return article_text
+        else:
+            return self.backup
 
     def frequency_dis(self):
         stopwords = nltk.corpus.stopwords.words('english')
@@ -42,6 +48,7 @@ class ArticleSummarization:
         self.word_frequencies = word_frequencies
 
     def frequency_caculate(self):
+        print(self.orginal_text+"hi")
         maximum_frequncy = max(self.word_frequencies.values())
         for word in self.word_frequencies.keys():
             self.word_frequencies[word] = (self.word_frequencies[word] / maximum_frequncy)
