@@ -1,0 +1,8 @@
+We extracted emotion data from tags from this project:
+https://www.aclweb.org/anthology/Y16-2013.pdf
+
+which can be found here:
+https://github.com/MingleiLI/ACE2005_emotion_corpus/blob/master/EmotionLabel
+
+We grabbed the source files from here:
+https://github.com/Aureliu/BIU-RPI-Event-Extraction-Project/tree/master/ACE_EVENT/corpus/orig
