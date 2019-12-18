@@ -10,6 +10,7 @@ def create_news():
             top_headlines = newsapi.get_top_headlines(q=topic, language='en')
             content_and_url = []
             for c_a in top_headlines.get("articles"):
+                c_a.get
                 content_and_url.append((c_a.get("content"), c_a.get("url"), c_a.get("description")))
             if len(content_and_url) < 1:
                 print("choose a different topic, topic in top headlines is not available. ")
@@ -19,4 +20,5 @@ def create_news():
 
 # content_url_description_list is a list of articles and each element is in a tuple goes like content url description
 # content_and_url[(content,url,description)]
-content_url_description_list = create_news()
+#content_url_description_list = create_news()
+#print(content_url_description_list)

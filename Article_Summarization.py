@@ -6,7 +6,6 @@ import nltk
 import bs4 as bs
 from requests import Request
 from urllib.request import Request, urlopen
-
 from FacebookPosts import create_news
 
 
