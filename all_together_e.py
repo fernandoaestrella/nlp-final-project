@@ -24,6 +24,8 @@ from Article_Summarization import ArticleSummarization
 from MarkovChain import MarkovChain
 #from Part_Of_Speech import PosTagger
 
+from SentimentExtractor import SentimentExtractor
+
 
 class ModleAndTrainer:
     def __init__(self):
@@ -325,8 +327,12 @@ class ModleAndTrainer:
             elif feature_type == 'bc':
                 prediction = classifier.predict([self.document_features_bc(document, word_list)])
                 print(prediction)
-                print(prediction[0])
             print(classifier.predict_proba([self.document_features_bc(document, word_list)]))
+            se = SentimentExtractor(document, prediction[0])
+            matching_sentiment_wordlist = se.return_sentiment_words()
+            print(matching_sentiment_wordlist)
+            # prints list as set
+            print(set(matching_sentiment_wordlist))
 
         if mode == 'train':
             if classifier == 'bayes':
