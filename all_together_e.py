@@ -3,7 +3,6 @@
 # Assignment 5
 # Due 10/10/19
 from collections import Counter
-import time
 
 import nltk
 from nltk.corpus import movie_reviews
@@ -16,11 +15,17 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn import tree
 from newsapi import NewsApiClient
 import spacy
-from extract_text import LabeledTextExtractor
+
+# Returns a list containing all the movie reviews
+# Format is a list of tuples, each containing a list of words in the review, and the label
+# the return of this is what you pass in for the documents argument in the methods below the line
 import FacebookPosts
 from Article_Summarization import ArticleSummarization
 from MarkovChain import MarkovChain
-from Part_Of_Speech import PosTagger
+#from Part_Of_Speech import PosTagger
+
+from SentimentExtractor import SentimentExtractor
+
 
 class ModleAndTrainer:
     def __init__(self):
@@ -314,13 +319,20 @@ class ModleAndTrainer:
 
                 # here might need to convert the document into the correct format
             if feature_type == 'rc':
-                print(classifier.predict([self.document_features_rc(document, word_list)]))
+                prediction = classifier.predict([self.document_features_rc(document, word_list)])
+                print(prediction)
                 # turn the document into a list of strings
                 # do document_feature() on the correct type
                 # do document_feature () on the list of strings and the word list
             elif feature_type == 'bc':
-                print(classifier.predict([self.document_features_bc(document, word_list)]))
+                prediction = classifier.predict([self.document_features_bc(document, word_list)])
+                print(prediction)
             print(classifier.predict_proba([self.document_features_bc(document, word_list)]))
+            se = SentimentExtractor(document, prediction[0])
+            matching_sentiment_wordlist = se.return_sentiment_words()
+            print(matching_sentiment_wordlist)
+            # prints list as set
+            print(set(matching_sentiment_wordlist))
 
         if mode == 'train':
             if classifier == 'bayes':
