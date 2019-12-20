@@ -20,17 +20,18 @@ import spacy
 # Format is a list of tuples, each containing a list of words in the review, and the label
 # the return of this is what you pass in for the documents argument in the methods below the line
 import FacebookPosts
-from Article_Summarization import ArticleSummarization
 from MarkovChain import MarkovChain
-from Part_Of_Speech import PosTagger
+from SentimentExtractor import SentimentExtractor
 
 
 class ModleAndTrainer:
+
     def __init__(self):
         self.list_of_people =[]
         self.score = 0
         self.verbs=[]
         self.nouns=[]
+
     def return_all_reviews(self):
         reviews = [(list(movie_reviews.words(fileid)), category)
                    for category in movie_reviews.categories()
@@ -204,7 +205,7 @@ class ModleAndTrainer:
 
     # This is how you predict given a model and set of features
     def predict(self, model, feature_set):
-        print(model.predict(feature_set))
+        return model.predict(feature_set)
 
     # Creates set of test features given test set and list of words
     def create_test_feature_vectors(self, testset, wordlist, model):
@@ -317,13 +318,13 @@ class ModleAndTrainer:
 
                 # here might need to convert the document into the correct format
             if feature_type == 'rc':
-                print(classifier.predict([self.document_features_rc(document, word_list)]))
+               return classifier.predict([self.document_features_rc(document, word_list)])
                 # turn the document into a list of strings
                 # do document_feature() on the correct type
                 # do document_feature () on the list of strings and the word list
             elif feature_type == 'bc':
-                print(classifier.predict([self.document_features_bc(document, word_list)]))
-            print(classifier.predict_proba([self.document_features_bc(document, word_list)]))
+                return classifier.predict([self.document_features_bc(document, word_list)])
+
 
         if mode == 'train':
             if classifier == 'bayes':
@@ -354,25 +355,14 @@ class ModleAndTrainer:
 # modify the current methods.
 # Let's see if this works on news articles.
 if __name__ == '__main__':
-    # content_url_description_list is a list of articles and each element is in a tuple goes like content url description
-    # content_and_url[(content,url,description)]
-
-    content_url_description_list = FacebookPosts.create_news()
-    print(content_url_description_list)
-    article_summarization = ArticleSummarization(content_url_description_list[0][1],content_url_description_list[0][0])
-    mc = MarkovChain(article_summarization.orginal_text,article_summarization)
-    mc.create_dictonary()
-    t = ModleAndTrainer()
-    t.main(article_summarization.orginal_text)
-    if t.list_of_people:
-        mc.randomText(nltk.FreqDist(t.list_of_people).most_common(1))
-    else:
-        mc.randomText(None)
+    fp = FacebookPosts.Facebook_post_generator()
+    article_content = fp.create_news()
+    train = ModleAndTrainer()
+    sentiment = train.main(article_content.orginal_text)
+    print(sentiment)
+    extract_sentiment = SentimentExtractor(article_content.orginal_text,sentiment)
+    mkc = MarkovChain(article_content.orginal_text,article_content.generate_summerzization(),extract_sentiment.return_sentiment_words())
+    mkc.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
 
 
-    """summary = article_summarization.generate_summerzization()
-    trainer = ModleAndTrainer()
-    trainer.main(article_summarization.orginal_text)
-    list_of_people = trainer.list_of_people
-    pos = PosTagger(summary,list_of_people,trainer.verbs)"""
 

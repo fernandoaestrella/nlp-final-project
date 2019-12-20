@@ -1,10 +1,4 @@
-# This class returns a list of words whose sentiments match the article's overall sentiment (positive or negative)
-
 from nltk.corpus import sentiwordnet as swn
-
-
-# Takes sentiment as "pos" or "neg," generated from model.predict() in all_together
-# Takes document as string
 class SentimentExtractor:
     def __init__(self, document, sentiment):
         self.document = document
@@ -33,7 +27,7 @@ def is_pos(word):
         return False
     first_synset = synsets[0]
     positive_score = first_synset.pos_score()
-    if positive_score >= 0.5:
+    if positive_score > 0:
         return True
     else:
         return False
@@ -47,11 +41,7 @@ def is_neg(word):
         return False
     first_synset = synsets[0]
     negative_score = first_synset.neg_score()
-    if negative_score >= 0.5:
+    if negative_score > 0:
         return True
     else:
         return False
-
-# if __name__ == '__main__':
-# s = SentimentExtractor("The big dog ran away really happy and fun and cool and lovely and beautiful", "pos")
-# print(s.return_sentiment_words())

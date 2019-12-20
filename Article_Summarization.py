@@ -6,24 +6,22 @@ import nltk
 import bs4 as bs
 from requests import Request
 from urllib.request import Request, urlopen
-from FacebookPosts import create_news
 
 
 class ArticleSummarization:
     # the parameter is the article url please pass that in
-    def __init__(self,url,backup):
+    def __init__(self, url, backup):
         self.backup = backup
         self.orginal_text = self.read_article(url)
-        print(self.orginal_text+" hi")
         self.sentence_scores = {}
         self.sentence_tokens = nltk.sent_tokenize(self.orginal_text)
         self.word_frequencies = {}
 
         self.article_content = nltk.re.sub('[^a-zA-Z]', ' ', self.orginal_text)
-        self.article_content  = nltk.re.sub(r'\s+', ' ', self.article_content)
+        self.article_content = nltk.re.sub(r'\s+', ' ', self.article_content)
 
-    def read_article(self,url):
-        req = Request(url,headers={'User-Agent': 'Mozilla/5.0'})
+    def read_article(self, url):
+        req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         article = urlopen(req).read()
         parsed_article = bs.BeautifulSoup(article, 'lxml')
         paragraphs = parsed_article.find_all('p')
@@ -48,7 +46,7 @@ class ArticleSummarization:
         self.word_frequencies = word_frequencies
 
     def frequency_caculate(self):
-        print(self.orginal_text+"hi")
+
         maximum_frequncy = max(self.word_frequencies.values())
         for word in self.word_frequencies.keys():
             self.word_frequencies[word] = (self.word_frequencies[word] / maximum_frequncy)
@@ -62,6 +60,7 @@ class ArticleSummarization:
                             self.sentence_scores[sent] = self.word_frequencies[word]
                         else:
                             self.sentence_scores[sent] += self.word_frequencies[word]
+
     # this will generate a new summary of the article with three sentence if you want a shorter or longer summary just switch the 3 to w/e #
     # u want
     def generate_summerzization(self):
@@ -72,11 +71,7 @@ class ArticleSummarization:
         summary = '\n'.join(summary_sentences)
         print(summary)
         return summary
+
     # this will get you the actual content of the page
     def get_article_web_content(self):
         return self.orginal_text
-
-if __name__ == '__main__':
-    content_url_description_list = create_news()
-    article = ArticleSummarization(content_url_description_list[0][1]);
-    article.generate_summerzization()

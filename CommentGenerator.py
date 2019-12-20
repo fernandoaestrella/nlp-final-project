@@ -1,4 +1,3 @@
-# Utilizes sentiment and entities to generate a short comment response to a given news article
 import spacy
 
 
