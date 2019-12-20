@@ -3,6 +3,7 @@
 # Assignment 5
 # Due 10/10/19
 from collections import Counter
+import time
 
 import nltk
 from nltk.corpus import movie_reviews
@@ -15,6 +16,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn import tree
 from newsapi import NewsApiClient
 import spacy
+from extract_text import LabeledTextExtractor
 
 
 # Returns a list containing all the movie reviews
@@ -162,6 +164,7 @@ def shuffle(documents):
 # TODO: This should shuffle and split, but not assign labels
 def split_data(list_of_documents, splitindex):
     random.shuffle(list_of_documents)
+
     # create training set and labels
     training = list_of_documents[:splitindex]
     # training_labels = assign_labels(training)
@@ -235,7 +238,7 @@ def return_accuracy(model, features, labels):
 def main(content_url_description_list):
     # Here we would train all the classifiers and save them via pickle.
     # In lieu of argparse, this is an attempt at taking user input.
-    random.seed(1)
+    random.seed(time.time()*1000.0)
 
     feature = input("Choose a model: \n1 - all words raw counts\n2 - all words binary\n3 - SentiWordNet words raw counts\n4 - SentiWordNet words binary\nType a number: ")
     if feature not in ('1', '2', '3', '4'):
@@ -277,8 +280,10 @@ def main(content_url_description_list):
 
     if mode == 'train':
         # Creates list of all reviews
-        all_reviews = return_all_reviews()
-        training_and_test_sets = split_data(all_reviews, 1000)
+        # all_reviews = return_all_reviews()
+        all_reviews = LabeledTextExtractor().tagged_texts
+        # training_and_test_sets = split_data(all_reviews, 1000)
+        training_and_test_sets = split_data(all_reviews, int(all_reviews.__len__() * 0.75))
         training_set = training_and_test_sets[0]
         test_set = training_and_test_sets[1]
 
@@ -302,7 +307,8 @@ def main(content_url_description_list):
             # need to check here which model to run
         # with open(filename, "r") as f:
         #     document = f.read().split()
-        document = content_url_description_list[0][0] # fix condition where this is None
+
+        document = content_url_description_list[0][0]
 
         # Load English tokenizer, tagger, parser, NER and word vectors
         nlp = spacy.load("en_core_web_sm")
@@ -351,6 +357,7 @@ def main(content_url_description_list):
             train(model_tree, training_features, assign_labels(training_set))
             # Do these all need to have different file names?
             with open(pickle_name, "wb") as f:
+                print(pickle_name)
                 pickle.dump((model_tree, word_list), f)
             print(model_tree.score(test_features, assign_labels(test_set)))
 
@@ -364,7 +371,9 @@ def create_news():
             top_headlines = newsapi.get_top_headlines(q=topic, language='en')
             content_and_url = []
             for c_a in top_headlines.get("articles"):
-                content_and_url.append((c_a.get("content"), c_a.get("url"), c_a.get("description")))
+                if c_a.get("content") is not None:
+                    content_and_url.append((c_a.get("content"), c_a.get("url"), c_a.get("description")))
+                    break
             if len(content_and_url) < 1:
                 print("choose a different topic, topic in top headlines is not available. ")
             else:
@@ -381,6 +390,8 @@ def create_news():
 if __name__ == '__main__':
     # content_url_description_list is a list of articles and each element is in a tuple goes like content url description
     # content_and_url[(content,url,description)]
-    content_url_description_list = create_news()
-    print(content_url_description_list)
+
+    # content_url_description_list = create_news()
+    # print(content_url_description_list)
+    content_url_description_list = ("content", "url", "title")
     main(content_url_description_list)
