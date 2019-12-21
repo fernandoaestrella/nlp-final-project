@@ -13,6 +13,7 @@ class SentimentExtractor:
     def return_sentiment_words(self):
         matching_sentiment_words = []
         words_in_doc = self.document.split()
+        print(words_in_doc)
         if self.sentiment == 'pos':
             for word in words_in_doc:
                 if is_pos(word):
@@ -33,7 +34,7 @@ def is_pos(word):
         return False
     first_synset = synsets[0]
     positive_score = first_synset.pos_score()
-    if positive_score >= 0.5:
+    if positive_score > 0:
         return True
     else:
         return False
@@ -47,7 +48,7 @@ def is_neg(word):
         return False
     first_synset = synsets[0]
     negative_score = first_synset.neg_score()
-    if negative_score >= 0.5:
+    if negative_score > 0:
         return True
     else:
         return False

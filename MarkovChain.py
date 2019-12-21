@@ -30,10 +30,10 @@ class MarkovChain:
             while "." not in sen:
                 word2 = random.choice(self.word_dic[word1])
                 word1 = word2
-                sen+=" "+word2
-            print(sen)
+                sen += " "+word2
+            return sen
         else:
-            print(self.article_summary.generate_summerzization())
+            return self.article_summary.generate_summerzization()
 
 
 

@@ -14,7 +14,7 @@ class ArticleSummarization:
     def __init__(self,url,backup):
         self.backup = backup
         self.orginal_text = self.read_article(url)
-        print(self.orginal_text+" hi")
+        # print(self.orginal_text+" hi")
         self.sentence_scores = {}
         self.sentence_tokens = nltk.sent_tokenize(self.orginal_text)
         self.word_frequencies = {}
@@ -48,7 +48,7 @@ class ArticleSummarization:
         self.word_frequencies = word_frequencies
 
     def frequency_caculate(self):
-        print(self.orginal_text+"hi")
+        # print(self.orginal_text+"hi")
         maximum_frequncy = max(self.word_frequencies.values())
         for word in self.word_frequencies.keys():
             self.word_frequencies[word] = (self.word_frequencies[word] / maximum_frequncy)
@@ -70,7 +70,7 @@ class ArticleSummarization:
         self.sentence_freq()
         summary_sentences = heapq.nlargest(3, self.sentence_scores, key=self.sentence_scores.get)
         summary = '\n'.join(summary_sentences)
-        print(summary)
+        # print(summary)
         return summary
     # this will get you the actual content of the page
     def get_article_web_content(self):
