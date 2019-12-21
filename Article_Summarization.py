@@ -69,7 +69,6 @@ class ArticleSummarization:
         self.sentence_freq()
         summary_sentences = heapq.nlargest(3, self.sentence_scores, key=self.sentence_scores.get)
         summary = '\n'.join(summary_sentences)
-        print(summary)
         return summary
 
     # this will get you the actual content of the page

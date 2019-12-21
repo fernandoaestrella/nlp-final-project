@@ -4,6 +4,7 @@ import spacy
 import FacebookPosts
 from Article_Summarization import ArticleSummarization
 from MarkovChain import MarkovChain
+from SentimentExtractor import SentimentExtractor
 
 
 class ModleAndTrainer:
@@ -35,24 +36,25 @@ class ModleAndTrainer:
             if entity.label_ is "PERSON":
                 self.list_of_people.append(entity.text)
 
-        print(classifier.predict([self.document_features_bc(document, word_list)])) # this is what you need to inpu somewhere else
+        return classifier.predict([self.document_features_bc(document, word_list)]) # this is what you need to inpu somewhere else
 
 
+# First train the model, so enter 2, bayes, train (this is the most accurate). It'll take about a minute
+# Then do 2, bayes, run, and then enter the file name of a text file in the same directory
+# The article passed in should be a text file
+# The positive or negative prediction should be printed out
+# At this time, only one document at a time is predicted upon. We could easily write a method that batches them, or
+# modify the current methods.
+# Let's see if this works on news articles.
 if __name__ == '__main__':
-    # content_url_description_list is a list of articles and each element is ina tuple goes like
-    # content url description
-    content_url_description_list = FacebookPosts.create_news()
-    article_summarization = ArticleSummarization(content_url_description_list[0][1],
-                                                 content_url_description_list[0][0])
-    mc = MarkovChain(article_summarization.orginal_text, article_summarization)
-    mc.create_dictonary()
-    t = ModleAndTrainer()
-    t.main(article_summarization.orginal_text)
-    generated_comment = ""
-    if t.list_of_people:
-        generated_comment = mc.randomText(nltk.FreqDist(t.list_of_people).most_common(1))
-    else:
-        generated_comment = mc.randomText(None)
-    print("SUMMARY OF THE ARTICLE\n" + article_summarization.generate_summerzization() + "\n")
-    print("GENERATED COMMENT\n" + generated_comment)
+    fp = FacebookPosts.Facebook_post_generator()
+    article_content = fp.create_news()
+    train = ModleAndTrainer()
+    sentiment = train.main(article_content.orginal_text)
+    print(sentiment)
+    extract_sentiment = SentimentExtractor(article_content.orginal_text,sentiment)
+    mkc = MarkovChain(article_content.orginal_text,article_content.generate_summerzization(),extract_sentiment.return_sentiment_words())
+    mkc.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
+
+
 

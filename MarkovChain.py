@@ -27,7 +27,6 @@ class MarkovChain:
             else:
                 word = word[0][0]
         summary = re.split('[?.!]', self.article_summary)
-        print(summary)
         biggest = 0
         index = 0
         count = 0;
