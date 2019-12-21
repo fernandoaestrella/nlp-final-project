@@ -19,10 +19,15 @@ class Facebook_post_generator:
                 for c_a in top_headlines.get("articles"):
                     c_a.get
                     content_and_url.append((c_a.get("content"), c_a.get("url"), c_a.get("description")))
-                if len(content_and_url) < 1:
+                if not content_and_url:
                     print("choose a different topic, topic in top headlines is not available. ")
                 else:
-                    return self.choose_article(content_and_url)
+                    article = self.choose_article(content_and_url)
+                    if article:
+                        return article
+                    else:
+                        print("choose a different topic, topic in top headlines is not available. ")
+
 
     def choose_article(self, content_and_url):
         article_content = []
@@ -32,15 +37,16 @@ class Facebook_post_generator:
                 if len(m.orginal_text) > 200:
                     article_content.append(m)
                     break
-        if article_content.__sizeof__() > 0:
-            longest_article = article_content[0]
-        else:
-            return content_and_url[0][2]
 
-        for content in article_content:
-            if len(content.orginal_text) > len(longest_article.orginal_text):
-                longest_article = content
-        return longest_article
+        if article_content:
+            longest_article = article_content[0]
+
+            for content in article_content:
+                if len(content.orginal_text) > len(longest_article.orginal_text):
+                    longest_article = content
+            return longest_article
+        else:
+            return None
 
 
 
