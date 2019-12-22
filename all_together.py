@@ -53,10 +53,10 @@ if __name__ == '__main__':
     extract_sentiment = SentimentExtractor(article_content.orginal_text,sentiment)
     summary_of_article = article_content.generate_summerzization()
     pg = PostGenerator(article_content.orginal_text,summary_of_article,extract_sentiment.return_sentiment_words())
-    print("\nArticle summary: \n"+summary_of_article+"\n")
+    print("\n(vitor's post)Article summary: \n"+summary_of_article+"\n")
     pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
     comments = CommentGenerator(article_content.orginal_text)
-    print("\ncomment for post:"+comments.generate_comment(sentiment))
+    print("\n(Erica's post)comment for post:"+comments.generate_comment(sentiment))
 
 
 

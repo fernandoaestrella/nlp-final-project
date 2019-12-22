@@ -30,4 +30,4 @@ class PostGenerator:
                 index = count
             count += 1
 
-        print("Facebook post generated: Can you believe "+word+" said \"" + summary[index].strip()+"\"")
+        print("(vitor's post:)Facebook post generated: Can you believe "+word+" said \"" + summary[index].strip()+"\"")

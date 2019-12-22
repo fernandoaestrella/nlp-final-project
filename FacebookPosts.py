@@ -47,7 +47,7 @@ class Facebook_post_generator:
                     longest_article = content
                     index = count
                 count+=1
-            print("Please check out this article: "+ urls[index])
+            print("(vitor's post)Please check out this article: "+ urls[index])
             return longest_article
         else:
             return None
