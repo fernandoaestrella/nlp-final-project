@@ -18,7 +18,7 @@ The NLP methods deployed are:
 1. Install NLTK, SpaCy, Pickle, NewsApi, and BeautifulSoup
 2. Open the `all_together.py` file
 3. Run the main method
-4. When asked for a `'topic'`, input any keyword (> 3 characters) you would like to see the summary of current articles for.
+4. When asked for a `'topic'`, input any keyword (>= 3 characters) you would like to see the summary of current articles for.
 
 ## The output will be:
 
