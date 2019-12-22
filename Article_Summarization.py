@@ -7,7 +7,7 @@ import bs4 as bs
 from requests import Request
 from urllib.request import Request, urlopen
 
-
+""" written by Vitor Mouzinho"""
 class ArticleSummarization:
     # the parameter is the article url please pass that in
     def __init__(self, url, backup):

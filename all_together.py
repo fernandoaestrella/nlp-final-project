@@ -46,6 +46,7 @@ class ModleAndTrainer:
 # modify the current methods.
 # Let's see if this works on news articles.
 if __name__ == '__main__':
+    """ part below written by Vitor Mouzinho"""
     fp = FacebookPosts.Facebook_post_generator()
     article_content = fp.create_news()
     train = ModleAndTrainer()
@@ -53,10 +54,10 @@ if __name__ == '__main__':
     extract_sentiment = SentimentExtractor(article_content.orginal_text,sentiment)
     summary_of_article = article_content.generate_summerzization()
     pg = PostGenerator(article_content.orginal_text,summary_of_article,extract_sentiment.return_sentiment_words())
-    print("\n(vitor's post)Article summary: \n"+summary_of_article+"\n")
+    print("\nArticle summary: \n"+summary_of_article+"\n")
     pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
     comments = CommentGenerator(article_content.orginal_text)
-    print("\n(Erica's post)comment for post:"+comments.generate_comment(sentiment))
+    print("\ncomment for post:"+comments.generate_comment(sentiment))
 
 
 
