@@ -28,15 +28,15 @@ class Facebook_post_generator:
                     else:
                         print("choose a different topic, topic in top headlines is not available. ")
 
-
     def choose_article(self, content_and_url):
         article_content = []
-        for article in content_and_url:
-            if article[1]:
-                m = ArticleSummarization(article[1], article[2])
-                if len(m.orginal_text) > 200:
-                    article_content.append(m)
-                    break
+        article_content.append(ArticleSummarization(content_and_url[0][1], content_and_url[0][2]))
+        # for article in content_and_url:
+            # if article[1]:
+            #     m = ArticleSummarization(article[1], article[2])
+                # if len(m.orginal_text) > 200:
+                #     article_content.append(m)
+                #     break
 
         if article_content:
             longest_article = article_content[0]

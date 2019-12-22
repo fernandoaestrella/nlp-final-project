@@ -23,7 +23,7 @@ class ModleAndTrainer:
         return features_list
 
     def main(self, content_url_description_list):
-        with open("bc_all_bayes", "rb") as f:
+        with open("rc_all_bayes", "rb") as f:
             (classifier, word_list) = pickle.load(f)
         document = content_url_description_list
 
@@ -36,6 +36,7 @@ class ModleAndTrainer:
             if entity.label_ is "PERSON":
                 self.list_of_people.append(entity.text)
 
+        print(classifier.predict_proba([self.document_features_bc(document, word_list)]))
         return classifier.predict([self.document_features_bc(document, word_list)]) # this is what you need to inpu somewhere else
 
 
