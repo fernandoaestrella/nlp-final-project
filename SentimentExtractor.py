@@ -1,5 +1,8 @@
 from nltk.corpus import sentiwordnet as swn
+
+
 class SentimentExtractor:
+
     def __init__(self, document, sentiment):
         self.document = document
         self.sentiment = sentiment

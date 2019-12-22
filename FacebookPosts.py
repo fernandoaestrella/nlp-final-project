@@ -30,25 +30,24 @@ class Facebook_post_generator:
 
     def choose_article(self, content_and_url):
         article_content = []
-        article_content.append(ArticleSummarization(content_and_url[0][1], content_and_url[0][2]))
-        # for article in content_and_url:
-            # if article[1]:
-            #     m = ArticleSummarization(article[1], article[2])
-                # if len(m.orginal_text) > 200:
-                #     article_content.append(m)
-                #     break
-
+        urls =[]
+        for article in content_and_url:
+            if article[1]:
+                m = ArticleSummarization(article[1], article[2])
+                if len(m.orginal_text) > 200:
+                    urls.append(article[1])
+                    article_content.append(m)
+                    break
         if article_content:
             longest_article = article_content[0]
-
+            index = 0
+            count =0
             for content in article_content:
                 if len(content.orginal_text) > len(longest_article.orginal_text):
                     longest_article = content
+                    index = count
+                count+=1
+            print("Please check out this article: "+ urls[index])
             return longest_article
         else:
             return None
-
-
-
-
-

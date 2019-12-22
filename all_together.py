@@ -2,8 +2,8 @@ import nltk
 import pickle
 import spacy
 import FacebookPosts
-from Article_Summarization import ArticleSummarization
-from MarkovChain import MarkovChain
+from CommentGenerator import CommentGenerator
+from PostGenerator import PostGenerator
 from SentimentExtractor import SentimentExtractor
 
 
@@ -35,8 +35,6 @@ class ModleAndTrainer:
         for entity in doc.ents:
             if entity.label_ is "PERSON":
                 self.list_of_people.append(entity.text)
-
-        print(classifier.predict_proba([self.document_features_bc(document, word_list)]))
         return classifier.predict([self.document_features_bc(document, word_list)]) # this is what you need to inpu somewhere else
 
 
@@ -52,10 +50,16 @@ if __name__ == '__main__':
     article_content = fp.create_news()
     train = ModleAndTrainer()
     sentiment = train.main(article_content.orginal_text)
-    print(sentiment)
     extract_sentiment = SentimentExtractor(article_content.orginal_text,sentiment)
-    mkc = MarkovChain(article_content.orginal_text,article_content.generate_summerzization(),extract_sentiment.return_sentiment_words())
-    mkc.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
+    summary_of_article = article_content.generate_summerzization()
+    pg = PostGenerator(article_content.orginal_text,summary_of_article,extract_sentiment.return_sentiment_words())
+    print("\nArticle summary: \n"+summary_of_article+"\n")
+    pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
+    comments = CommentGenerator(article_content.orginal_text)
+    print("\ncomment for post:"+comments.generate_comment(sentiment))
+
+
+
 
 
 
