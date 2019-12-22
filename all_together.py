@@ -38,13 +38,6 @@ class ModleAndTrainer:
         return classifier.predict([self.document_features_bc(document, word_list)]) # this is what you need to inpu somewhere else
 
 
-# First train the model, so enter 2, bayes, train (this is the most accurate). It'll take about a minute
-# Then do 2, bayes, run, and then enter the file name of a text file in the same directory
-# The article passed in should be a text file
-# The positive or negative prediction should be printed out
-# At this time, only one document at a time is predicted upon. We could easily write a method that batches them, or
-# modify the current methods.
-# Let's see if this works on news articles.
 if __name__ == '__main__':
     """ part below written by Vitor Mouzinho"""
     fp = FacebookPosts.Facebook_post_generator()
@@ -55,7 +48,11 @@ if __name__ == '__main__':
     summary_of_article = article_content.generate_summerzization()
     pg = PostGenerator(article_content.orginal_text,summary_of_article,extract_sentiment.return_sentiment_words())
     print("\nArticle summary: \n"+summary_of_article+"\n")
-    pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
+    if len(train.list_of_people) != 0:
+       
+        pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1)[0][0])
+    else:
+        pg.randomText("they")
     comments = CommentGenerator(article_content.orginal_text)
     print("\nComment for post: \n"+comments.generate_comment(sentiment))
 
