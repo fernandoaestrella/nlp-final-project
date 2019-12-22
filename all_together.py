@@ -48,7 +48,11 @@ if __name__ == '__main__':
     summary_of_article = article_content.generate_summerzization()
     pg = PostGenerator(article_content.orginal_text,summary_of_article,extract_sentiment.return_sentiment_words())
     print("\nArticle summary: \n"+summary_of_article+"\n")
-    pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1))
+    if len(train.list_of_people) != 0:
+       
+        pg.randomText(nltk.FreqDist(train.list_of_people).most_common(1)[0][0])
+    else:
+        pg.randomText("they")
     comments = CommentGenerator(article_content.orginal_text)
     print("\nComment for post: \n"+comments.generate_comment(sentiment))
 
