@@ -15,7 +15,7 @@ class PostGenerator:
             if " " in word[0][0]:
                 word = word[0][0].split(" ")[0]
             else:
-                word = word[0][0]
+                word = word
         summary = re.split('[?.!]', self.article_summary)
         biggest = 0
         index = 0
