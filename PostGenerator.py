@@ -2,7 +2,7 @@
 from collections import defaultdict
 from nltk.corpus import stopwords
 import re
-
+""" written by Vitor Mouzinho"""
 
 class PostGenerator:
     def __init__(self, corpus, article_summary, words_to_use):

@@ -46,6 +46,7 @@ class ModleAndTrainer:
 # modify the current methods.
 # Let's see if this works on news articles.
 if __name__ == '__main__':
+    """ part below written by Vitor Mouzinho"""
     fp = FacebookPosts.Facebook_post_generator()
     article_content = fp.create_news()
     train = ModleAndTrainer()

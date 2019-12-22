@@ -1,7 +1,7 @@
 from newsapi import NewsApiClient
 
 from Article_Summarization import ArticleSummarization
-
+""" written by Vitor Mouzinho"""
 
 class Facebook_post_generator:
 
