@@ -50,6 +50,6 @@ NLP Final Report.pdf – Final write-up
 
 Proposal.rtf- copy of project proposal
 
-rc_all_bayes -- actual model used for sentiment analysis
+`rc_all_bayes` -- actual model used for sentiment analysis
 
 `SentimentExtractor.py` – Retrieves words in the article that match the sentiment of the article
