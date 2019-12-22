@@ -1,4 +1,4 @@
-##Facebook Post Generator
+## Facebook Post Generator
 
 December 2019
 
@@ -20,7 +20,7 @@ The NLP methods deployed are:
 3. Run the main method
 4. When asked for a `'topic'`, input any keyword (> 3 characters) you would like to see the summary of current articles for.
 
-##The output will be:
+## The output will be:
 
 `SUMMARY OF THE ARTICLE`- a 3-sentence objective summary of the first article retrieved with the given keyword. Also includes the URL of the news article.
 
@@ -28,7 +28,7 @@ The NLP methods deployed are:
 
 `SAMPLE RESPONSE COMMENT`- provides a comment that a respondent might post on Facebook in response to the article
 
-##Files in this Repository:
+## Files in this Repository:
 
 `ArticleSummariztion.py` – Methods for summarizing the article
 
